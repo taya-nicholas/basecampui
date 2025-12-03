@@ -4,9 +4,9 @@
 
 # %% auto 0
 __all__ = ['ButtonT', 'AccordionItem', 'Accordion', 'AlertT', 'Alert', 'Avatar', 'BadgeT', 'Badge', 'Breadcrumb',
-           'kebab_to_snakecase', 'mk_cls_enum', 'Button', 'Card', 'Checkbox', 'Input', 'Label', 'mk_pagination_nums',
-           'Pagination', 'Radio', 'RadioGroup', 'SkeletonCircle', 'SkeletonLine', 'Slider', 'Switch', 'Textarea',
-           'ThemeSwitcher', 'ToastCloseButton', 'Toaster', 'Toast', 'tooltip_kwargs']
+           'kebab_to_snakecase', 'mk_cls_enum', 'Button', 'Card', 'Checkbox', 'Form', 'Input', 'Label',
+           'mk_pagination_nums', 'Pagination', 'Radio', 'RadioGroup', 'SkeletonCircle', 'SkeletonLine', 'Slider',
+           'Switch', 'Textarea', 'ThemeSwitcher', 'ToastCloseButton', 'Toaster', 'Toast', 'tooltip_kwargs']
 
 # %% ../nbs/01_common.ipynb 2
 from fasthtml.common import *
@@ -123,6 +123,10 @@ def Card(*contents, title=None, desc=None, footer=None, cls="", **kwargs):
 # %% ../nbs/01_common.ipynb 38
 def Checkbox(*args, cls="", **kwargs):
     return Input(type="checkbox", cls=f"input {cls}", **kwargs)
+
+# %% ../nbs/01_common.ipynb 41
+def Form(*args, cls="", **kwargs):
+    return fh.Form(args, cls=f"form {cls}", **kwargs)
 
 # %% ../nbs/01_common.ipynb 44
 def Input(*args, cls="", **kwargs):
