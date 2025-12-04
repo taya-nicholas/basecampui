@@ -6,7 +6,8 @@
 __all__ = ['ButtonT', 'AccordionItem', 'Accordion', 'AlertT', 'Alert', 'Avatar', 'BadgeT', 'Badge', 'Breadcrumb',
            'kebab_to_snakecase', 'mk_cls_enum', 'Button', 'Card', 'Checkbox', 'Form', 'Input', 'Label',
            'mk_pagination_nums', 'Pagination', 'Radio', 'RadioGroup', 'SkeletonCircle', 'SkeletonLine', 'Slider',
-           'Switch', 'Textarea', 'ThemeSwitcher', 'ToastCloseButton', 'Toaster', 'Toast', 'tooltip_kwargs']
+           'Switch', 'TableFromDict', 'Textarea', 'ThemeSwitcher', 'ToastCloseButton', 'Toaster', 'Toast',
+           'tooltip_kwargs']
 
 # %% ../nbs/01_common.ipynb 2
 from fasthtml.common import *
@@ -189,10 +190,21 @@ def Switch(*args, **kwargs):
     return Input(*args, type="checkbox", role="switch", cls="input", **kwargs)
 
 # %% ../nbs/01_common.ipynb 70
+def TableFromDict(table_dict:dict, caption=None):
+    heads = [Th(o) for o in table_dict.keys()]
+    rows = [Tr(*[Td(val) for val in row]) for row in zip(*table_dict.values())]
+    return Table(
+        Caption(caption),
+        Thead(Tr(*heads)),
+        Tbody(*rows),
+        cls="table",
+    )
+
+# %% ../nbs/01_common.ipynb 73
 def Textarea(*args, placeholder="", cls="", invalid="false", **kwargs):
     return fh.Textarea(*args, placeholder=placeholder, cls=f"textarea {cls}", aria_invalid=invalid, **kwargs)
 
-# %% ../nbs/01_common.ipynb 73
+# %% ../nbs/01_common.ipynb 76
 def ThemeSwitcher(cls="", **kwargs):
     return Button(
         Span(Icon("sun"), cls="hidden dark:block"),
@@ -202,16 +214,16 @@ def ThemeSwitcher(cls="", **kwargs):
         cls=ButtonT.icon_outline + f"size-8 {cls}"
     )
 
-# %% ../nbs/01_common.ipynb 76
+# %% ../nbs/01_common.ipynb 79
 def ToastCloseButton(text="Dismiss"):
     return Button(text, data_toast_action=True, cls=ButtonT.primary)
 
-# %% ../nbs/01_common.ipynb 77
+# %% ../nbs/01_common.ipynb 80
 def Toaster(data_align="end"):
     "data_align accepts: ['start', 'center', end']"
     return Div(id="toaster", cls="toaster", data_align=data_align)
 
-# %% ../nbs/01_common.ipynb 78
+# %% ../nbs/01_common.ipynb 81
 def Toast(title, desc, icon=Icon("circle-check"), footer=ToastCloseButton(), cls="", role="status", data_category="success", aria_atomic="true", aria_hidden="false", **kwargs):
     return Div(
         Div(icon, Section(H2(title), P(desc)), Footer(footer), cls="toast-content"),
@@ -223,7 +235,7 @@ def Toast(title, desc, icon=Icon("circle-check"), footer=ToastCloseButton(), cls
         **kwargs
     )
 
-# %% ../nbs/01_common.ipynb 84
+# %% ../nbs/01_common.ipynb 87
 def tooltip_kwargs(
     text:str,      # The text to display
     side="top",    # either 'top', 'buttom', 'left', or 'right'
