@@ -5,7 +5,8 @@
 # %% auto 0
 __all__ = ['SelectItem', 'ComboboxItem', 'Separator', 'DialogOpenButton', 'DialogCloseButton', 'Dialog', 'AlertDialog',
            'DropdownTriggerButton', 'DropdownItem', 'Dropdown', 'ListboxTriggerButton', 'SearchBar', 'ListBox',
-           'ListboxItem', 'Select', 'Combobox', 'TabNav', 'Tabs']
+           'ListboxItem', 'Select', 'Combobox', 'TabNav', 'Tabs', 'IconTitle', 'Sidebar', 'SidebarGroup',
+           'SidebarCollapsable', 'ToggleButton', 'SeparatorVertical']
 
 # %% ../nbs/02_interactive.ipynb 2
 from fasthtml.common import *
@@ -95,11 +96,11 @@ def SearchBar(value="", placeholder="Search items..."):
     )
 
 # %% ../nbs/02_interactive.ipynb 34
-def ListBox(*contents, id, trigger_button=ListboxTriggerButton(), search_bar=SearchBar()):
-    trigger_button.attrs.update(dict(aria_controls=f"{id}-listbox", id=f"{id}-trigger"))
+def ListBox(*contents, id, trigger_btn=ListboxTriggerButton(), search_bar=SearchBar(), side="bottom", align="left"):
+    trigger_btn.attrs.update(dict(aria_controls=f"{id}-listbox", id=f"{id}-trigger"))
     if search_bar: search_bar.attrs.update(dict(aria_controls=f"{id}-listbox", aria_labelledby=f"{id}-trigger"))
     return Div(
-        trigger_button,
+        trigger_btn,
         Div(
             search_bar,
             Div(
@@ -108,7 +109,7 @@ def ListBox(*contents, id, trigger_button=ListboxTriggerButton(), search_bar=Sea
                 aria_orientation="vertical", 
                 aria_labelledby=f"{id}-trigger"
             ),
-            id=f"{id}-popover", data_popover=True, aria_hidden="true"
+            id=f"{id}-popover", data_popover=True, aria_hidden="true", data_side=side, data_align=align,
         ),
         Input(type="hidden", name=f"{id}-value", value=""),
         id=id, cls="select"
@@ -158,3 +159,46 @@ def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizo
         *contents,
         cls=f"tabs {cls}", id=id,
     )
+
+# %% ../nbs/02_interactive.ipynb 48
+def IconTitle(title:str, icon=None, size=16):
+    ico = Icon(icon, sz=size) if icon else None
+    return Div(ico, P(title), cls="flex items-center gap-2")
+
+# %% ../nbs/02_interactive.ipynb 52
+def Sidebar(*args, header=None, footer=None, **kwargs):
+    return Aside(
+        Nav(
+            header,
+            Section(*args, cls="scrollbar", **kwargs),
+            footer,
+        ),
+        cls="sidebar",
+    )
+
+# %% ../nbs/02_interactive.ipynb 54
+def SidebarGroup(title:str, name_list:list, icon_list:list, href_list=None):
+    if not href_list: href_list = [f"/{o.lower().replace(" ", "-")}" for o in name_list]
+    links = [Li(A(IconTitle(name, icon=ico), href=href)) for name, href, ico in zip(name_list, href_list, icon_list)]
+    return Group(title, Ul(*links))
+
+
+# %% ../nbs/02_interactive.ipynb 55
+def SidebarCollapsable(title:str, name_list:list, href_list=None):
+    if not href_list: href_list = [f"/{o.lower().replace(" ", "-")}" for o in name_list]
+    links = [Li(A(name, href=href)) for name, href in zip(name_list, href_list)]
+    return Ul(Li(Details(Summary(title), Ul(*links))))
+
+# %% ../nbs/02_interactive.ipynb 56
+def ToggleButton():
+    return Button(
+        Icon("panel-left"), 
+        type="button",
+        onclick="document.dispatchEvent(new CustomEvent('basecoat:sidebar'))",
+        cls="btn-ghost p-2"
+    )
+p(ToggleButton())
+
+# %% ../nbs/02_interactive.ipynb 59
+def SeparatorVertical(cls="h-4 w-px mr-2"):
+    return Hr(role="separtor", cls=f"bg-border {cls}")

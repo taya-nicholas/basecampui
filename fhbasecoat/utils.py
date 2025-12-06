@@ -33,6 +33,12 @@ text_css = Style("""
 .text-foreground { color: var(--foreground); }
 .hover\\:text-foreground:hover { color: var(--foreground); }
 .bg-accent { background-color: var(--accent); }
+.bg-border { background-color: var(--border); }
+.bg-card { background-color: var(--card); }
+.bg-muted { background-color: var(--muted); }
+.bg-primary { background-color: var(--primary); }
+.bg-background { background-color: var(--background); }
+.border-border { border-color: var(--border); }
 """)
 theme_script = Script("""
 (() => {
