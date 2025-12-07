@@ -63,8 +63,10 @@ def ChatMessage(content:str, msg_type="", cls="", rounding="", color=""):
     )
 
 def ChatPrompt(content:str):
-    return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="bg-rose-600/20")
+    return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="")
+    # return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="bg-rose-600/20")
 
 def ChatAssistant(content:str):
-    return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="bg-rose-600/20")
+    return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="")
+    # return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="bg-rose-600/20")
 

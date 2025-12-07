@@ -110,8 +110,8 @@ def Button(*args, cls=ButtonT.primary, **kwargs):
     return fh.Button(*args, cls=cls, **kwargs)
 
 # %% ../nbs/01_common.ipynb 35
-def ButtonGroup(*args, **kwargs):
-    return Div(*args, role="group", cls="button-group", **kwargs)
+def ButtonGroup(*args, cls="", **kwargs):
+    return Div(*args, role="group", cls=f"button-group {cls}", **kwargs)
 
 # %% ../nbs/01_common.ipynb 38
 def Card(*contents, title=None, desc=None, footer=None, cls="", **kwargs):
@@ -237,7 +237,7 @@ def ThemeSwitcher(cls="", **kwargs):
     return Button(
         Span(Icon("sun"), cls="hidden dark:block"),
         Span(Icon("moon"), cls="block dark:hidden"),
-        type="button", aria_label="Toggle dark mode", data_tooltip="Toggle dark mode",
+        type="button",
         data_side="bottom", onclick="document.dispatchEvent(new CustomEvent('basecoat:theme'))",
         cls=ButtonT.icon_outline + f"size-8 {cls}"
     )
