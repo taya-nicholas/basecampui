@@ -17,7 +17,7 @@ from itertools import product
 from enum import Enum, auto
 
 
-# %% ../nbs/03_chat.ipynb 11
+# %% ../nbs/03_chat.ipynb 12
 def ChatInput(cls="", ta_cls="", width="w-96", **kwargs):
     return Form(
         Textarea(placeholder="Ask, Search or Chat...", cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", name="text"),
@@ -39,7 +39,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", **kwargs):
         **kwargs
     )
 
-# %% ../nbs/03_chat.ipynb 13
+# %% ../nbs/03_chat.ipynb 15
 def ChatInterface(*contents, chat_input=None, cls="", id=None):
     return Div(
         CardOutline(
@@ -51,7 +51,7 @@ def ChatInterface(*contents, chat_input=None, cls="", id=None):
         cls=f"flex flex-col w-full lg:max-w-4xl mx-auto {cls}",
     )
 
-# %% ../nbs/03_chat.ipynb 14
+# %% ../nbs/03_chat.ipynb 16
 def ChatMessage(content:str, msg_type="", cls="", rounding="", color=""): 
     return Div(
         Div(
