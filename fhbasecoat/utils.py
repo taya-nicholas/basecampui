@@ -13,6 +13,7 @@ from fasthtml.common import fast_app as ori_fast_app, FastHTML as ori_FastHTML
 from fasthtml.jupyter import *
 from fastlucide import *
 from fastcore.meta import delegates
+import re
 
 # %% ../nbs/00_utils.ipynb 4
 # Additional script needed for sliders
@@ -90,7 +91,7 @@ p = get_preview()
 
 # %% ../nbs/00_utils.ipynb 12
 def slugify(s):
-    return s.lower().replace(" ", "-")
+    return re.sub(r"[&/\s]+", "-", s).strip("-").lower()
 
 # %% ../nbs/00_utils.ipynb 14
 # To easily preview items in a larger container
