@@ -42,9 +42,9 @@ def ChatInput(cls="", ta_cls="", width="w-96", **kwargs):
 # %% ../nbs/03_chat.ipynb 15
 def ChatInterface(*contents, chat_input=None, cls="", id=None):
     return Div(
-        CardOutline(
+        Div(
             *contents,
-            cls="flex flex-col flex-1 m-1 mb-0 p-3 rounded-lg rounded-b-none gap-2",
+            cls="bg-background border-l border-r flex flex-col flex-1 mx-1 p-3 gap-2",
             id=id,
         ),
         chat_input,
@@ -56,17 +56,14 @@ def ChatMessage(content:str, msg_type="", cls="", rounding="", color=""):
     return Div(
         Div(
             Div(
-                P(msg_type, cls="ml-2"), cls=f"text-xs text-muted-foreground border-b border-border hover:cursor-pointer {rounding} rounded-b-none {color}"),
+                P(msg_type, cls="ml-2"), cls=f"text-xs text-muted-background border-b border-border hover:cursor-pointer {rounding} rounded-b-none {color}"),
                 Div(content, cls="px-4 py-3 whitespace-pre-wrap"),
         ),
         cls=f"border border-border text-sm {cls} {rounding}"
     )
 
 def ChatPrompt(content:str):
-    return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="")
-    # return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="bg-rose-600/20")
+    return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[85%]", rounding="rounded-2xl rounded-tl-sm", color="bg-rose-700/70")
 
 def ChatAssistant(content:str):
-    return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="")
-    # return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="bg-rose-600/20")
-
+    return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="bg-rose-700/70")

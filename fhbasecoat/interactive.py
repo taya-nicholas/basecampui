@@ -184,14 +184,14 @@ def Sidebar(*args, header=None, footer=None, **kwargs):
 # %% ../nbs/02_interactive.ipynb 53
 def SidebarGroup(title:str, name_list:list, icon_list:list, href_list=None, href_parent=None):
     if not href_list: href_list = list(map(slugify, name_list))
-    links = [Li(A(IconTitle(name, icon=ico), href=f"{slugify(href_parent)}/{href}" if href_parent else href)) for name, href, ico in zip(name_list, href_list, icon_list)]
+    links = [Li(A(IconTitle(name, icon=ico), href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href, ico in zip(name_list, href_list, icon_list)]
     return Group(title, Ul(*links))
 
 
 # %% ../nbs/02_interactive.ipynb 54
 def SidebarCollapsable(title:str, name_list:list, href_list=None, href_parent=False):
     if not href_list: href_list = list(map(slugify, name_list))
-    links = [Li(A(name, href=f"{slugify(href_parent)}/{href}" if href_parent else href)) for name, href in zip(name_list, href_list)]
+    links = [Li(A(name, href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href in zip(name_list, href_list)]
     return Ul(Li(Details(Summary(title), Ul(*links))))
 
 # %% ../nbs/02_interactive.ipynb 55
