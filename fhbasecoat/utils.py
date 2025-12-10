@@ -12,6 +12,7 @@ from fasthtml.common import *
 from fasthtml.common import fast_app as ori_fast_app, FastHTML as ori_FastHTML
 from fasthtml.jupyter import *
 from fastlucide import *
+from enum import Enum
 from fastcore.meta import delegates
 import re
 
