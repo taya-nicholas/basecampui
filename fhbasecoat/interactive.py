@@ -185,40 +185,41 @@ def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizo
         cls=f"tabs {cls}", id=id,
     )
 
-# %% ../nbs/02_interactive.ipynb 55
+# %% ../nbs/02_interactive.ipynb 56
 def IconTitle(title:str, icon=None, size=16):
     ico = Icon(icon, sz=size) if icon else None
     return Div(ico, P(title), cls="flex items-center gap-2")
 
-# %% ../nbs/02_interactive.ipynb 58
-def Sidebar(*args, header=None, footer=None, **kwargs):
+# %% ../nbs/02_interactive.ipynb 59
+def Sidebar(*args, header=None, footer=None, cls="", nav_cls="", **kwargs):
     return Aside(
         Nav(
             header,
             Section(*args, cls="scrollbar", **kwargs),
             footer,
+            cls=nav_cls,
         ),
-        cls="sidebar",
+        cls=f"sidebar {cls}",
     )
 
-# %% ../nbs/02_interactive.ipynb 59
+# %% ../nbs/02_interactive.ipynb 60
 def Group(title: str, *args, **kwargs):
     return Div(H3(title), *args, role="group", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 60
+# %% ../nbs/02_interactive.ipynb 61
 def SidebarGroup(title:str, name_list:list, icon_list:list, href_list=None, href_parent=None):
     if not href_list: href_list = list(map(slugify, name_list))
     links = [Li(A(IconTitle(name, icon=ico), href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href, ico in zip(name_list, href_list, icon_list)]
     return Group(title, Ul(*links))
 
 
-# %% ../nbs/02_interactive.ipynb 61
+# %% ../nbs/02_interactive.ipynb 62
 def SidebarCollapsable(title:str, name_list:list, href_list=None, href_parent=False):
     if not href_list: href_list = list(map(slugify, name_list))
     links = [Li(A(name, href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href in zip(name_list, href_list)]
     return Ul(Li(Details(Summary(title), Ul(*links))))
 
-# %% ../nbs/02_interactive.ipynb 62
+# %% ../nbs/02_interactive.ipynb 63
 def ToggleButton():
     return Button(
         Icon("panel-left"), 
@@ -227,7 +228,7 @@ def ToggleButton():
         cls="btn-ghost p-2"
     )
 
-# %% ../nbs/02_interactive.ipynb 64
+# %% ../nbs/02_interactive.ipynb 65
 def ListboxTriggerButton(
     icon=Icon("chevrons-up-down", cls="text-muted-foreground opacity-50 shrink-0"),
     cls=f"{ButtonT.outline} justify-between font-normal w-[180px]",
@@ -235,19 +236,19 @@ def ListboxTriggerButton(
 ):
     return Button(Span("", cls="truncate"), icon, type="button", aria_haspopup="listbox", aria_expanded="false", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 67
+# %% ../nbs/02_interactive.ipynb 68
 def SeparatorVertical(cls="h-4 w-px mr-2"):
     return Hr(role="separtor", cls=f"bg-border {cls}")
 
-# %% ../nbs/02_interactive.ipynb 71
+# %% ../nbs/02_interactive.ipynb 72
 # They have the same functionality so adding alias for discoverability
 CommandItem = DropdownItem
 
-# %% ../nbs/02_interactive.ipynb 72
+# %% ../nbs/02_interactive.ipynb 73
 def CommandDialog(*contents, id, cls="", **kwargs):
     return fh.Dialog(*contents, id=id, cls=f"command-dialog {cls}", onclick="if (event.target === this) this.close()")
 
-# %% ../nbs/02_interactive.ipynb 73
+# %% ../nbs/02_interactive.ipynb 74
 def CommandSearch(icon=Icon("search"), placeholder="Search...", *kwargs):
     return Header(
         Icon("search"),
@@ -257,14 +258,14 @@ def CommandSearch(icon=Icon("search"), placeholder="Search...", *kwargs):
         )
     )
 
-# %% ../nbs/02_interactive.ipynb 74
+# %% ../nbs/02_interactive.ipynb 75
 def CommandGroup(*args, **kwargs):
     return Div(*args, role="group", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 75
+# %% ../nbs/02_interactive.ipynb 76
 def CommandScrollable(*args, direction="vertical", empty_msg="No results found.", cls="", **kwargs):
     return Div(*args, role="menu", data_empty=empty_msg, aira_orientation=direction, cls=f"scrollbar, {cls}", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 76
+# %% ../nbs/02_interactive.ipynb 77
 def Command(*args, cls="", **kwargs):
     return Div(*args, cls=f"command rounded-lg border shadow-md {cls}", **kwargs)

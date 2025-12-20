@@ -272,7 +272,7 @@ def Toast(title, desc, icon=Icon("circle-check"), footer=ToastCloseButton(), cls
 # %% ../nbs/01_common.ipynb 126
 def tooltip_kwargs(
     text:str,      # The text to display
-    side="top",    # either 'top', 'buttom', 'left', or 'right'
+    side="top",    # either 'top', 'bottom', 'left', or 'right'
     align="center" # either 'start', 'center', or 'end'
 ):
     return dict(data_tooltip=text, data_side=side, data_align=align) 
