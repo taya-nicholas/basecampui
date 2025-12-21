@@ -76,8 +76,13 @@ basecoat_hdrs = make_hdrs(deps)
 
 # %% ../nbs/00_utils.ipynb 6
 @delegates(ori_FastHTML, keep=True, but=["pico"])
-def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], **kwargs):
+def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, **kwargs):
     hdrs = basecoat_hdrs + (hdrs or ())
+    if code_highlight:
+        hdrs += (
+    Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css", id="hljs-light"),
+    Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css", id="hljs-dark"),
+    Script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"))
     spritesheet.nms.update(icons)
     ftrs = (ftrs or ()) + (spritesheet,)  # Add sprite sheet to footers
     return ori_FastHTML(hdrs=hdrs, ftrs=ftrs, pico=pico, **kwargs)
