@@ -209,9 +209,11 @@ def Slider(min="0", max="100", value="50", cls="", **kwargs):
     return Div(
         Input(type="range", cls=f"input {cls}", min=min, max=max, value=value, **kwargs),
         Script("""
-            const el = document.currentScript.previousElementSibling;
-            updateSlider(el);
-            el.addEventListener('input', () => updateSlider(el));
+            (() => {
+                const el = document.currentScript.previousElementSibling;
+                updateSlider(el);
+                el.addEventListener('input', () => updateSlider(el));
+            })();
         """)
     )
 
