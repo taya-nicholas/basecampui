@@ -170,7 +170,7 @@ def TabNav(nm, id, idx, selected=False):
     return fh.Button(nm, type="button", role="tab", id=f"{id}-tab-{idx}",  aria_controls=f"{id}-panel-{idx}", aria_selected="true" if selected else "false", tabindex="0")
 
 # %% ../nbs/02_interactive.ipynb 51
-def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizontal", cls="w-96"):
+def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizontal", cls="w-96", nav_cls="w-fit"):
     nav_items = [TabNav(o, id, idx, selected=(idx==default_tab)) for idx, o in enumerate(tablist)]
     for idx, content in enumerate(contents):
         active_dict = {"aria_selected": "true"} if idx==default_tab else {"aria_selected": "false", "hidden": True}
@@ -179,7 +179,7 @@ def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizo
     return Div(
         Nav(
             *nav_items,
-             role="tablist", aria_orientation=orientation, cls="w-full",
+             role="tablist", aria_orientation=orientation, cls=nav_cls,
         ),
         *contents,
         cls=f"tabs {cls}", id=id,
