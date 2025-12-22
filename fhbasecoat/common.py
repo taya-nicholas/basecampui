@@ -18,7 +18,11 @@ from itertools import product, accumulate
 from enum import Enum, auto
 
 
-# %% ../nbs/01_common.ipynb 8
+# %% ../nbs/01_common.ipynb 3
+# Icon used for dev, spritesheet, when all icons are known/defined
+Icon = spritesheet
+
+# %% ../nbs/01_common.ipynb 10
 def AccordionItem(title, content, **kwargs):
     return Details(
         Summary(
@@ -43,12 +47,12 @@ def Accordion(*items, **kwargs):
         **kwargs
     )
 
-# %% ../nbs/01_common.ipynb 12
+# %% ../nbs/01_common.ipynb 14
 class AlertT(VEnum):
     default = "alert"
     destructive = "alert-destructive"
 
-# %% ../nbs/01_common.ipynb 13
+# %% ../nbs/01_common.ipynb 15
 def Alert(title=None, description=None, icon=None, cls=AlertT.default, **kwargs):
     content = []
     if icon: content.append(icon)
@@ -56,11 +60,11 @@ def Alert(title=None, description=None, icon=None, cls=AlertT.default, **kwargs)
     if description: content.append(Section(description))
     return Div(*content, cls=cls, **kwargs)
 
-# %% ../nbs/01_common.ipynb 17
+# %% ../nbs/01_common.ipynb 19
 def Avatar(src:str, cls="", **kwargs):
     return Img(src=src, cls=f"size-8 shrink-0 object-cover rounded-full {cls}")
 
-# %% ../nbs/01_common.ipynb 21
+# %% ../nbs/01_common.ipynb 23
 class BadgeT(VEnum):
     primary = 'badge-primary'
     secondary = 'badge-secondary'
@@ -70,12 +74,12 @@ class BadgeT(VEnum):
 def Badge(*args, cls=BadgeT.primary, **kwargs):
     return Span(*args, cls=cls, **kwargs)
 
-# %% ../nbs/01_common.ipynb 25
+# %% ../nbs/01_common.ipynb 27
 def accumulate_hrefs(links:list):
     slugs = [slugify(o) for o in links]
     return list(accumulate(slugs, lambda a, b: f"{a}/{b}", initial=""))[1:]
 
-# %% ../nbs/01_common.ipynb 27
+# %% ../nbs/01_common.ipynb 29
 def Breadcrumb(links:list, hrefs=None):
     if not hrefs: hrefs = accumulate_hrefs(links)
     contents = []
@@ -90,10 +94,10 @@ def Breadcrumb(links:list, hrefs=None):
     )
 
 
-# %% ../nbs/01_common.ipynb 31
+# %% ../nbs/01_common.ipynb 33
 def kebab_to_snakecase(s, strip_s=""): return s.lstrip(strip_s).replace("-", "_")
 
-# %% ../nbs/01_common.ipynb 33
+# %% ../nbs/01_common.ipynb 35
 def mk_cls_enum(enum_name, base, variants, modifiers, sizes):
     members = {}
     for sz, mod, var in product(sizes, modifiers, variants):
@@ -102,7 +106,7 @@ def mk_cls_enum(enum_name, base, variants, modifiers, sizes):
         members[nm] = val
     return VEnum(enum_name, members)
 
-# %% ../nbs/01_common.ipynb 34
+# %% ../nbs/01_common.ipynb 36
 ButtonT = mk_cls_enum(
     "ButtonT", 
     "btn", 
@@ -111,15 +115,15 @@ ButtonT = mk_cls_enum(
     sizes=["-", "-sm-", "-lg-"],
 )
 
-# %% ../nbs/01_common.ipynb 36
+# %% ../nbs/01_common.ipynb 38
 def Button(*args, cls=ButtonT.primary, **kwargs):
     return fh.Button(*args, cls=cls, **kwargs)
 
-# %% ../nbs/01_common.ipynb 40
+# %% ../nbs/01_common.ipynb 42
 def ButtonGroup(*args, cls="", **kwargs):
     return Div(*args, role="group", cls=f"button-group {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 44
+# %% ../nbs/01_common.ipynb 46
 def Card(*contents, title=None, desc=None, footer=None, cls="", **kwargs):
     parts = []
     if title or desc: parts.append(Header(H2(title), P(desc)))
@@ -131,31 +135,31 @@ def Card(*contents, title=None, desc=None, footer=None, cls="", **kwargs):
         **kwargs
     )
 
-# %% ../nbs/01_common.ipynb 45
+# %% ../nbs/01_common.ipynb 47
 def CardOutline(*contents, cls="", **kwargs):
     return Div(*contents, cls=f"bg-background border border-border {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 51
+# %% ../nbs/01_common.ipynb 53
 def Checkbox(*args, cls="", **kwargs):
     return Input(type="checkbox", cls=f"input {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 55
+# %% ../nbs/01_common.ipynb 57
 def Form(*args, cls="", **kwargs):
     return fh.Form(args, cls=f"form {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 59
+# %% ../nbs/01_common.ipynb 61
 def Kbd(*args, cls="", **kwargs):
     return fh.Kbd(*args, cls=f"kbd {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 63
+# %% ../nbs/01_common.ipynb 65
 def Input(*args, cls="", **kwargs):
     return fh.Input(*args, cls=f"input {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 65
+# %% ../nbs/01_common.ipynb 67
 def Label(*args, cls="", **kwargs):
     return fh.Label(*args, cls=f"label {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 70
+# %% ../nbs/01_common.ipynb 72
 def mk_pagination_nums(current_page, total_pages, max_side):
     n_list = list(range(max(current_page - max_side, 1), min(current_page + max_side + 1, total_pages+1)))
     if n_list[1] != 2: n_list[1] = "..."
@@ -164,7 +168,7 @@ def mk_pagination_nums(current_page, total_pages, max_side):
     n_list[-1] = total_pages
     return n_list
 
-# %% ../nbs/01_common.ipynb 72
+# %% ../nbs/01_common.ipynb 74
 def Pagination(current_page, total_pages, max_side=5, href_pattern="/page/{n}"):
     contents = [Li(A(Icon("chevron-left"), " Previous", href=href_pattern.format(n=max(current_page-1, 1)), cls=ButtonT.ghost))]
     for n in mk_pagination_nums(current_page, total_pages, max_side):
@@ -176,7 +180,7 @@ def Pagination(current_page, total_pages, max_side=5, href_pattern="/page/{n}"):
     contents.append(Li(A("Next ", Icon("chevron-right"), href=href_pattern.format(n=min(current_page+1, total_pages)), cls=ButtonT.ghost)))
     return Nav(Ul(*contents, cls="flex flex-row items-center gap-1"), role="navigation", aria_label="pagination")
 
-# %% ../nbs/01_common.ipynb 76
+# %% ../nbs/01_common.ipynb 78
 def Progress(value=0, cls="", **kwargs):
     return Div(
         Div(style=f"width: {value}%", cls="bg-primary h-full w-full flex-1 transition-all"),
@@ -184,27 +188,27 @@ def Progress(value=0, cls="", **kwargs):
         **kwargs
     )
 
-# %% ../nbs/01_common.ipynb 80
+# %% ../nbs/01_common.ipynb 82
 def Radio(name, value=None, **kwargs):
     if not value: value = name.lower()
     return Label(Input(type="radio", name="radio-group", value=value, **kwargs), name, cls="label")
 
-# %% ../nbs/01_common.ipynb 82
+# %% ../nbs/01_common.ipynb 84
 def RadioGroup(*radios, cls="", **kwargs):
     return Fieldset(*radios, cls=f"grid gap-3 {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 86
+# %% ../nbs/01_common.ipynb 88
 def SkeletonCircle(cls="size-10", **kwargs):
     return Div(cls=f"bg-accent animate-pulse rounded-full shrink-0 {cls}", **kwargs)
 
 def SkeletonLine(cls="w-full", **kwargs):
     return Div(cls=f"bg-accent animate-pulse rounded-md h-4 {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 87
+# %% ../nbs/01_common.ipynb 89
 def SkeletonSquare(cls="size-10", **kwargs):
     return Div(cls=f"bg-accent animate-pulse rounded-md shrink-0 {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 94
+# %% ../nbs/01_common.ipynb 96
 def Slider(min="0", max="100", value="50", cls="", **kwargs):
     return Div(
         Input(type="range", cls=f"input {cls}", min=min, max=max, value=value, **kwargs),
@@ -217,15 +221,15 @@ def Slider(min="0", max="100", value="50", cls="", **kwargs):
         """)
     )
 
-# %% ../nbs/01_common.ipynb 98
+# %% ../nbs/01_common.ipynb 100
 def Spinner(cls="", **kwargs):
     return Icon("loader-circle", cls=f"animate-spin {cls}", **kwargs)
 
-# %% ../nbs/01_common.ipynb 102
+# %% ../nbs/01_common.ipynb 104
 def Switch(*args, **kwargs):
     return Input(*args, type="checkbox", role="switch", cls="input", **kwargs)
 
-# %% ../nbs/01_common.ipynb 106
+# %% ../nbs/01_common.ipynb 108
 def TableFromDict(table_dict:dict, caption=None):
     heads = [Th(o) for o in table_dict.keys()]
     rows = [Tr(*[Td(val) for val in row]) for row in zip(*table_dict.values())]
@@ -236,11 +240,11 @@ def TableFromDict(table_dict:dict, caption=None):
         cls="table",
     )
 
-# %% ../nbs/01_common.ipynb 110
+# %% ../nbs/01_common.ipynb 112
 def Textarea(*args, placeholder="", cls="", invalid="false", **kwargs):
     return fh.Textarea(*args, placeholder=placeholder, cls=f"textarea {cls}", aria_invalid=invalid, **kwargs)
 
-# %% ../nbs/01_common.ipynb 114
+# %% ../nbs/01_common.ipynb 116
 def ThemeSwitcher(cls="", **kwargs):
     return Button(
         Span(Icon("sun"), cls="hidden dark:block"),
@@ -250,16 +254,16 @@ def ThemeSwitcher(cls="", **kwargs):
         cls=ButtonT.icon_outline + f"size-8 {cls}"
     )
 
-# %% ../nbs/01_common.ipynb 118
+# %% ../nbs/01_common.ipynb 120
 def ToastCloseButton(text="Dismiss"):
     return Button(text, data_toast_action=True, cls=ButtonT.primary)
 
-# %% ../nbs/01_common.ipynb 119
+# %% ../nbs/01_common.ipynb 121
 def Toaster(data_align="end"):
     "data_align accepts: ['start', 'center', end']"
     return Div(id="toaster", cls="toaster", data_align=data_align)
 
-# %% ../nbs/01_common.ipynb 120
+# %% ../nbs/01_common.ipynb 122
 def Toast(title, desc, icon=Icon("circle-check"), footer=ToastCloseButton(), cls="", role="status", data_category="success", aria_atomic="true", aria_hidden="false", **kwargs):
     return Div(
         Div(icon, Section(H2(title), P(desc)), Footer(footer), cls="toast-content"),
@@ -271,7 +275,7 @@ def Toast(title, desc, icon=Icon("circle-check"), footer=ToastCloseButton(), cls
         **kwargs
     )
 
-# %% ../nbs/01_common.ipynb 126
+# %% ../nbs/01_common.ipynb 128
 def tooltip_kwargs(
     text:str,      # The text to display
     side="top",    # either 'top', 'bottom', 'left', or 'right'
