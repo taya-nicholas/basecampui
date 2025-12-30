@@ -8,10 +8,10 @@ __all__ = ['ChatInput', 'ChatInterface', 'ChatMessage', 'ChatPrompt', 'ChatAssis
 
 # %% ../nbs/04_chat.ipynb 2
 from fasthtml.common import *
-from .utils import *
-from .common import *
-from .interactive import *
-from .markdown import CodeHighlight
+from fhbasecoat.utils import *
+from fhbasecoat.common import *
+from fhbasecoat.interactive import *
+from fhbasecoat.markdown import CodeHighlight
 import fasthtml.components as fh
 from fasthtml.jupyter import *
 from fastcore.meta import delegates

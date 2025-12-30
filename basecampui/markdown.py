@@ -11,11 +11,7 @@ from fasthtml.common import *
 from .utils import *
 from .common import *
 from .interactive import *
-import fasthtml.components as fh
 from fasthtml.jupyter import *
-from fastcore.meta import delegates
-from itertools import product
-from enum import Enum, auto
 
 
 # %% ../nbs/03_markdown.ipynb 7
