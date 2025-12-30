@@ -1,9 +1,0 @@
-project:
-  output-dir: _docs
-
-website:
-  title: "fhbasecoat"
-  site-url: "https://taya-nicholas.github.io/fhbasecoat"
-  description: "A fasthtml wrapper for the basecoat styling library"
-  repo-branch: main
-  repo-url: "https://github.com/taya-nicholas/fhbasecoat"
