@@ -4,8 +4,8 @@
 
 # %% auto 0
 __all__ = ['spritesheet', 'slider_script', 'text_css', 'theme_script', 'deps', 'basecoat_hdrs', 'p', 'make_hdrs',
-           'basecamp_icons', 'code_highlight_headers', 'FastHTML', 'get_preview', 'slugify', 'Window', 'pw', 'VEnum',
-           'Icon']
+           'basecamp_icons', 'code_highlight_headers', 'CodeHighlightThemeScript', 'FastHTML', 'get_preview', 'slugify',
+           'Window', 'pw', 'VEnum', 'Icon']
 
 # %% ../nbs/00_utils.ipynb 2
 from fastcore.utils import *
@@ -104,42 +104,71 @@ def code_highlight_headers():
         Script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
     )
 
-# %% ../nbs/00_utils.ipynb 9
+# %% ../nbs/00_utils.ipynb 8
+def CodeHighlightThemeScript(
+    custom_kws:str="" # A space separated string of variable names to highlight
+):
+    return (
+        Script(f"""
+            function updateHljsTheme() {{
+                const isDark = document.documentElement.classList.contains('dark');
+                document.getElementById('hljs-light').disabled = isDark;
+                document.getElementById('hljs-dark').disabled = !isDark;
+            }}
+            updateHljsTheme();
+
+            hljs.registerLanguage('python-custom', function(hljs) {{
+                var python = hljs.getLanguage('python');
+                python.keywords.built_in += ' {custom_kws}';
+                return python;
+            }});
+
+            document.addEventListener('basecoat:theme', () => setTimeout(updateHljsTheme, 0));
+            document.body.addEventListener('htmx:afterSettle', () => {{
+                hljs.highlightAll();
+            }});
+            hljs.highlightAll();
+        """),
+    )
+
+# %% ../nbs/00_utils.ipynb 10
 @delegates(ori_FastHTML, keep=True, but=["pico"])
-def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, **kwargs):
+def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, custom_kws="", **kwargs):
     hdrs = basecoat_hdrs + (hdrs or ()) + (spritesheet,)
+    ftrs = ftrs or ()
     if code_highlight:
         hdrs += code_highlight_headers()
+        ftrs += CodeHighlightThemeScript(custom_kws)
     spritesheet.nms.update(basecamp_icons())
     spritesheet.nms.update(icons)
     return ori_FastHTML(hdrs=hdrs, ftrs=ftrs, pico=pico, **kwargs)
 
-# %% ../nbs/00_utils.ipynb 12
+# %% ../nbs/00_utils.ipynb 13
 def get_preview(app=None): 
     if not app: app = FastHTML(session_cookie="mysession")
     return partial(HTMX, app=app, host=None, port=None)
 p = get_preview()
 
-# %% ../nbs/00_utils.ipynb 14
+# %% ../nbs/00_utils.ipynb 15
 def slugify(s):
     return re.sub(r"[&/\s]+", "-", s).strip("-").lower()
 
-# %% ../nbs/00_utils.ipynb 16
+# %% ../nbs/00_utils.ipynb 17
 # To easily preview items in a larger container
 def Window(*args, cls="h-96"):
     return Div(*args, cls="w-full flex flex-col items-center justify-center {cls}")
 
-# %% ../nbs/00_utils.ipynb 17
+# %% ../nbs/00_utils.ipynb 18
 def pw(*args, **kwargs):
     return p(Div(Window(*args, **kwargs), cls="h-100 w-full flex flex-col justify-center items-center"))
 
-# %% ../nbs/00_utils.ipynb 19
+# %% ../nbs/00_utils.ipynb 20
 class VEnum(Enum):
     def __str__(self): return self.value
     def __add__(self, b): return f"{self.value} {b}"
     def __radd__(self, a): return f"{a} {self.value}"
 
-# %% ../nbs/00_utils.ipynb 24
+# %% ../nbs/00_utils.ipynb 25
 def Icon(nm, sz=24, vbox=24, stroke=None, stroke_width=None, fill=None, cls=""):
     sym = [ft(t, **attrs) for t,attrs in spritesheet.icons[nm]]
     style = _style_str(stroke, fill, stroke_width)
