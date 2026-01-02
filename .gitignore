@@ -22,6 +22,8 @@ __pycache__/
 # C extensions
 *.so
 nbs/.sesskey
+nbs/embeddings
+nbs/embeddings/*
 
 # Distribution / packaging
 .Python
@@ -34,6 +36,7 @@ downloads/
 eggs/
 .eggs/
 lib/
+
 lib64/
 parts/
 sdist/

@@ -10,7 +10,7 @@ __all__ = ['spritesheet', 'slider_script', 'text_css', 'theme_script', 'deps', '
 # %% ../nbs/00_utils.ipynb 2
 from fastcore.utils import *
 from fasthtml.common import *
-from fasthtml.common import fast_app as ori_fast_app, FastHTML as ori_FastHTML
+import fasthtml.common as fh
 from fasthtml.jupyter import *
 from fastlucide.icons import spritesheet
 from fastlucide.core import _style_str, sz_attrs
@@ -132,7 +132,7 @@ def CodeHighlightThemeScript(
     )
 
 # %% ../nbs/00_utils.ipynb 10
-@delegates(ori_FastHTML, keep=True, but=["pico"])
+@delegates(fh.FastHTML, keep=True, but=["pico"])
 def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, custom_kws="", **kwargs):
     hdrs = basecoat_hdrs + (hdrs or ()) + (spritesheet,)
     ftrs = ftrs or ()
@@ -141,7 +141,7 @@ def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, cu
         ftrs += CodeHighlightThemeScript(custom_kws)
     spritesheet.nms.update(basecamp_icons())
     spritesheet.nms.update(icons)
-    return ori_FastHTML(hdrs=hdrs, ftrs=ftrs, pico=pico, **kwargs)
+    return fh.FastHTML(hdrs=hdrs, ftrs=ftrs, pico=pico, **kwargs)
 
 # %% ../nbs/00_utils.ipynb 13
 def get_preview(app=None): 
@@ -156,7 +156,7 @@ def slugify(s):
 # %% ../nbs/00_utils.ipynb 17
 # To easily preview items in a larger container
 def Window(*args, cls="h-96"):
-    return Div(*args, cls="w-full flex flex-col items-center justify-center {cls}")
+    return Div(*args, cls=f"w-full flex flex-col items-center justify-center {cls}")
 
 # %% ../nbs/00_utils.ipynb 18
 def pw(*args, **kwargs):

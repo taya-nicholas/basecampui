@@ -11,11 +11,7 @@ from fasthtml.common import *
 from .utils import *
 from .common import *
 from .interactive import *
-import fasthtml.components as fh
 from fasthtml.jupyter import *
-from fastcore.meta import delegates
-from itertools import product
-from enum import Enum, auto
 
 
 # %% ../nbs/03_markdown.ipynb 7
@@ -68,30 +64,31 @@ def TextDotHighlight(text, cls="mx-0.5", before_color="bg-blue-500", after_color
 def TextPopover(content, text, id, side="right", align="center"):
     return Popover(content, id=id, trigger_btn=PopoverTriggerButton(TextDotHighlight(text), pid=id, cls="text"), side=side, align=align)
 
-# %% ../nbs/03_markdown.ipynb 20
+# %% ../nbs/03_markdown.ipynb 21
 def md_header(md_item):
     level = len(md_item) - len(md_item.lstrip("#"))
     sizes = {1: "text-3xl", 2: "text-2xl", 3: "text-xl", 4: "text-lg", 5: "text-base", 6: "text-sm"}
     H = [H1, H2, H3, H4, H5, H6][level - 1]
     return H(md_item.lstrip("# ").strip(), cls=f"{sizes.get(level, 'text-base')} font-bold my-4")
 
-# %% ../nbs/03_markdown.ipynb 21
+# %% ../nbs/03_markdown.ipynb 22
 def extract_codeblock(codeblock):
-    return re.findall(r"```(\w+)(.*)```", codeblock, flags=re.DOTALL)[0]
+    code = re.findall(r"```(\w*)(.*)```", codeblock, flags=re.DOTALL)
+    return code[0] if code else code
 
-# %% ../nbs/03_markdown.ipynb 23
+# %% ../nbs/03_markdown.ipynb 25
 def md_codeblock(md_item):
     lang, code = extract_codeblock(md_item)
     return CopyableCode(code, lang)
 
-# %% ../nbs/03_markdown.ipynb 24
+# %% ../nbs/03_markdown.ipynb 26
 def render_span(text, replace_map):
     if replace_map is None: replace_map = {}
     pattern = rf"\b({'|'.join(replace_map.keys())})\b"
     parts = [replace_map.get(p, p) for p in re.split(pattern, text) if p]
     return Span(*parts)
 
-# %% ../nbs/03_markdown.ipynb 25
+# %% ../nbs/03_markdown.ipynb 27
 def render_md_item(md_item: str, replace_map=None):
     if md_item.startswith("#"):   return md_header(md_item)
     if md_item.startswith("```"): return md_codeblock(md_item)

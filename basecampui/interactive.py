@@ -16,27 +16,25 @@ from .common import *
 import fasthtml.components as fh
 from fasthtml.jupyter import *
 from fastcore.meta import delegates
-from itertools import product
-from enum import Enum, auto
 
 
-# %% ../nbs/02_interactive.ipynb 9
+# %% ../nbs/02_interactive.ipynb 8
 def Separator(role="separator", **kwargs):
     return Hr(role=role, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 10
+# %% ../nbs/02_interactive.ipynb 9
 def ItemHeader(*contents, **kwargs):
     return Div(*contents, role="heading", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 13
+# %% ../nbs/02_interactive.ipynb 12
 def DialogOpenButton(*args, did, cls=ButtonT.outline, **kwargs):
     return Button(*args, onclick=f"document.getElementById('{did}').showModal()", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 15
+# %% ../nbs/02_interactive.ipynb 14
 def DialogCloseButton(content=Icon("x"), cls="", **kwargs):
     return Button(content, onclick="this.closest('dialog').close()", cls=cls, aria_label="Close dialog", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 18
+# %% ../nbs/02_interactive.ipynb 17
 def Dialog(*contents, id, title=None, desc=None, footer=None, close_btn=DialogCloseButton(), cls="w-full sm:max-w-[425px] max-h-[612px]", onclick="if (event.target === this) this.close()", **kwargs):
     parts = []
     if title or desc: parts.append(Header(H2(title), P(desc)))
@@ -44,16 +42,16 @@ def Dialog(*contents, id, title=None, desc=None, footer=None, close_btn=DialogCl
     if footer: parts.append(Footer(footer))
     return fh.Dialog(Div(*parts, close_btn), id=id, cls=f"dialog {cls}", onclick=onclick, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 21
+# %% ../nbs/02_interactive.ipynb 20
 @delegates(Dialog, keep=True)
 def AlertDialog(*args, close_btn=None, onclick=None, **kwargs):
     return Dialog(*args, close_btn=close_btn, onclick=onclick, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 26
+# %% ../nbs/02_interactive.ipynb 25
 def DropdownTriggerButton(*contents, did, cls=ButtonT.outline, **kwargs):
     return Button(*contents, id=f"{did}-trigger", aria_haspopup="menu", aria_controls=f"{did}-menu", aria_expanded="false", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 27
+# %% ../nbs/02_interactive.ipynb 26
 def DropdownItem(*contents, icon=None, shortcut=None, disabled=False, **kwargs):
     parts = []
     if icon: parts.append(icon)
@@ -61,7 +59,7 @@ def DropdownItem(*contents, icon=None, shortcut=None, disabled=False, **kwargs):
     if shortcut: parts.append(Span(shortcut, cls="text-muted-foreground ml-auto text-xs tracking-widest"))
     return Div(*parts, role="menuitem", aria_disabled="true" if disabled else None, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 28
+# %% ../nbs/02_interactive.ipynb 27
 def Dropdown(*contents, id, btn_content="Open", trigger_btn=None, cls="min-w-65", side="bottom", align="left"):
     """The dropdown menu requires a DropdownTriggerButton to activate. A default version is provided used btn_content value
     but can be overriden by passing a button to the trigger_btn param.
@@ -80,11 +78,11 @@ def Dropdown(*contents, id, btn_content="Open", trigger_btn=None, cls="min-w-65"
     )
 
 
-# %% ../nbs/02_interactive.ipynb 33
+# %% ../nbs/02_interactive.ipynb 32
 def PopoverTriggerButton(*contents, pid, cls=ButtonT.outline, **kwargs):
     return Button(*contents, id=f"{pid}-trigger", aria_expanded="false", aria_controls=f"{pid}-popover", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 34
+# %% ../nbs/02_interactive.ipynb 33
 def Popover(*contents, id, btn_content="Open popover", trigger_btn=None, cls="w-80", side="bottom", align="center"):
     """The popover requires a PopoverTriggerButton to activate. A default version is provided using btn_content value
     but can be overridden by passing a button to the trigger_btn param.
@@ -99,7 +97,7 @@ def Popover(*contents, id, btn_content="Open popover", trigger_btn=None, cls="w-
         id=id, cls="popover"
     )
 
-# %% ../nbs/02_interactive.ipynb 38
+# %% ../nbs/02_interactive.ipynb 37
 def ListboxTriggerButton(
     icon=Icon("chevrons-up-down", cls="text-muted-foreground opacity-50 shrink-0"),
     cls=f"{ButtonT.outline} justify-between font-normal w-[180px]",
@@ -107,7 +105,7 @@ def ListboxTriggerButton(
 ):
     return Button(Span("", cls="truncate"), icon, type="button", aria_haspopup="listbox", aria_expanded="false", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 39
+# %% ../nbs/02_interactive.ipynb 38
 def SearchBar(value="", placeholder="Search items..."):
     return Header(
         Icon("search"),
@@ -119,7 +117,7 @@ def SearchBar(value="", placeholder="Search items..."):
         )
     )
 
-# %% ../nbs/02_interactive.ipynb 40
+# %% ../nbs/02_interactive.ipynb 39
 def ListBox(*contents, id, trigger_btn=ListboxTriggerButton(), search_bar=SearchBar(), side="bottom", align="left"):
     trigger_btn.attrs.update(dict(aria_controls=f"{id}-listbox", id=f"{id}-trigger"))
     if search_bar: search_bar.attrs.update(dict(aria_controls=f"{id}-listbox", aria_labelledby=f"{id}-trigger"))
@@ -139,7 +137,7 @@ def ListBox(*contents, id, trigger_btn=ListboxTriggerButton(), search_bar=Search
         id=id, cls="select"
     )
 
-# %% ../nbs/02_interactive.ipynb 41
+# %% ../nbs/02_interactive.ipynb 40
 def ListboxItem(content, value=None, selected=False, force=False, keywords=None, filter_text=None, disabled=False, **kwargs):
     attrs = {"role": "option", "data_value": value or content}
     if selected: attrs["aria_selected"] = "true"
@@ -149,27 +147,27 @@ def ListboxItem(content, value=None, selected=False, force=False, keywords=None,
     if disabled: attrs["aria_disabled"] = "true"
     return Div(content, **attrs, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 42
+# %% ../nbs/02_interactive.ipynb 41
 # Alias to make the items more discoverable
 SelectItem = ComboboxItem = ListboxItem
 
-# %% ../nbs/02_interactive.ipynb 43
+# %% ../nbs/02_interactive.ipynb 42
 @delegates(ListBox, but=["search_bar"])
 def Select(*args, searchable=False, **kwargs):
     search_bar = SearchBar() if searchable else None
     return ListBox(*args, search_bar=search_bar, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 44
+# %% ../nbs/02_interactive.ipynb 43
 @delegates(ListBox, but=["search_bar"])
 def Combobox(*args, search_placeholder="Search items...", **kwargs):
     search_bar = SearchBar(placeholder=search_placeholder)
     return ListBox(*args, search_bar=search_bar, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 50
+# %% ../nbs/02_interactive.ipynb 49
 def TabNav(nm, id, idx, selected=False):
     return fh.Button(nm, type="button", role="tab", id=f"{id}-tab-{idx}",  aria_controls=f"{id}-panel-{idx}", aria_selected="true" if selected else "false", tabindex="0")
 
-# %% ../nbs/02_interactive.ipynb 51
+# %% ../nbs/02_interactive.ipynb 50
 def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizontal", cls="w-96", nav_cls="w-fit"):
     nav_items = [TabNav(o, id, idx, selected=(idx==default_tab)) for idx, o in enumerate(tablist)]
     for idx, content in enumerate(contents):
@@ -185,12 +183,12 @@ def Tabs(contents:list, tablist:list, id:str, default_tab=0, orientation="horizo
         cls=f"tabs {cls}", id=id,
     )
 
-# %% ../nbs/02_interactive.ipynb 56
+# %% ../nbs/02_interactive.ipynb 55
 def IconTitle(title:str, icon=None, size=16):
     ico = Icon(icon, sz=size) if icon else None
     return Div(ico, P(title), cls="flex items-center gap-2")
 
-# %% ../nbs/02_interactive.ipynb 59
+# %% ../nbs/02_interactive.ipynb 58
 def Sidebar(*args, header=None, footer=None, cls="", nav_cls="", **kwargs):
     return Aside(
         Nav(
@@ -202,24 +200,24 @@ def Sidebar(*args, header=None, footer=None, cls="", nav_cls="", **kwargs):
         cls=f"sidebar {cls}",
     )
 
-# %% ../nbs/02_interactive.ipynb 60
+# %% ../nbs/02_interactive.ipynb 59
 def Group(title: str, *args, **kwargs):
     return Div(H3(title), *args, role="group", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 61
+# %% ../nbs/02_interactive.ipynb 60
 def SidebarGroup(title:str, name_list:list, icon_list:list, href_list=None, href_parent=None):
     if not href_list: href_list = list(map(slugify, name_list))
     links = [Li(A(IconTitle(name, icon=ico), href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href, ico in zip(name_list, href_list, icon_list)]
     return Group(title, Ul(*links))
 
 
-# %% ../nbs/02_interactive.ipynb 62
+# %% ../nbs/02_interactive.ipynb 61
 def SidebarCollapsable(title:str, name_list:list, href_list=None, href_parent=False):
     if not href_list: href_list = list(map(slugify, name_list))
     links = [Li(A(name, href=f"/{slugify(href_parent)}/{href}" if href_parent else href)) for name, href in zip(name_list, href_list)]
     return Ul(Li(Details(Summary(title), Ul(*links))))
 
-# %% ../nbs/02_interactive.ipynb 63
+# %% ../nbs/02_interactive.ipynb 62
 def ToggleButton():
     return Button(
         Icon("panel-left"), 
@@ -228,7 +226,7 @@ def ToggleButton():
         cls="btn-ghost p-2"
     )
 
-# %% ../nbs/02_interactive.ipynb 65
+# %% ../nbs/02_interactive.ipynb 64
 def ListboxTriggerButton(
     icon=Icon("chevrons-up-down", cls="text-muted-foreground opacity-50 shrink-0"),
     cls=f"{ButtonT.outline} justify-between font-normal w-[180px]",
@@ -236,19 +234,19 @@ def ListboxTriggerButton(
 ):
     return Button(Span("", cls="truncate"), icon, type="button", aria_haspopup="listbox", aria_expanded="false", cls=cls, **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 68
+# %% ../nbs/02_interactive.ipynb 67
 def SeparatorVertical(cls="h-4 w-px mr-2"):
     return Hr(role="separtor", cls=f"bg-border {cls}")
 
-# %% ../nbs/02_interactive.ipynb 72
+# %% ../nbs/02_interactive.ipynb 71
 # They have the same functionality so adding alias for discoverability
 CommandItem = DropdownItem
 
-# %% ../nbs/02_interactive.ipynb 73
+# %% ../nbs/02_interactive.ipynb 72
 def CommandDialog(*contents, id, cls="", **kwargs):
     return fh.Dialog(*contents, id=id, cls=f"command-dialog {cls}", onclick="if (event.target === this) this.close()")
 
-# %% ../nbs/02_interactive.ipynb 74
+# %% ../nbs/02_interactive.ipynb 73
 def CommandSearch(icon=Icon("search"), placeholder="Search...", *kwargs):
     return Header(
         Icon("search"),
@@ -258,14 +256,14 @@ def CommandSearch(icon=Icon("search"), placeholder="Search...", *kwargs):
         )
     )
 
-# %% ../nbs/02_interactive.ipynb 75
+# %% ../nbs/02_interactive.ipynb 74
 def CommandGroup(*args, **kwargs):
     return Div(*args, role="group", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 76
+# %% ../nbs/02_interactive.ipynb 75
 def CommandScrollable(*args, direction="vertical", empty_msg="No results found.", cls="", **kwargs):
     return Div(*args, role="menu", data_empty=empty_msg, aira_orientation=direction, cls=f"scrollbar, {cls}", **kwargs)
 
-# %% ../nbs/02_interactive.ipynb 77
+# %% ../nbs/02_interactive.ipynb 76
 def Command(*args, cls="", **kwargs):
     return Div(*args, cls=f"command rounded-lg border shadow-md {cls}", **kwargs)
