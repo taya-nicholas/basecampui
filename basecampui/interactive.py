@@ -118,9 +118,10 @@ def SearchBar(value="", placeholder="Search items..."):
     )
 
 # %% ../nbs/02_interactive.ipynb 39
-def ListBox(*contents, id, trigger_btn=ListboxTriggerButton(), search_bar=SearchBar(), side="bottom", align="left"):
+def ListBox(*contents, id, name=None, trigger_btn=ListboxTriggerButton(), search_bar=SearchBar(), side="bottom", align="left"):
     trigger_btn.attrs.update(dict(aria_controls=f"{id}-listbox", id=f"{id}-trigger"))
     if search_bar: search_bar.attrs.update(dict(aria_controls=f"{id}-listbox", aria_labelledby=f"{id}-trigger"))
+    nm = name or id
     return Div(
         trigger_btn,
         Div(
@@ -133,7 +134,7 @@ def ListBox(*contents, id, trigger_btn=ListboxTriggerButton(), search_bar=Search
             ),
             id=f"{id}-popover", data_popover=True, aria_hidden="true", data_side=side, data_align=align,
         ),
-        Input(type="hidden", name=f"{id}-value", value=""),
+        Input(type="hidden", name=nm, value=""),
         id=id, cls="select"
     )
 

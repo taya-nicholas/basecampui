@@ -24,7 +24,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
     select_btn = select_list and Select(
                 *map(SelectItem, select_list),
                 trigger_btn=ListboxTriggerButton(icon=None, cls=ButtonT.sm_ghost),
-                id="model-select", side="top",
+                id="model_select", name="model_select", side="top",
             )
     usage_div = usage_int and Div(f"{usage_int}% used", cls="text-muted-foreground text-sm")
     btn_list = btn_list or []
