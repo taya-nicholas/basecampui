@@ -20,7 +20,7 @@ from enum import Enum, auto
 
 
 # %% ../nbs/04_chat.ipynb 12
-def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, usage_int=None, **kwargs):
+def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, usage_int=None, placeholder="Ask...", **kwargs):
     select_btn = select_list and Select(
                 *map(SelectItem, select_list),
                 trigger_btn=ListboxTriggerButton(icon=None, cls=ButtonT.sm_ghost),
@@ -29,7 +29,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
     usage_div = usage_int and Div(f"{usage_int}% used", cls="text-muted-foreground text-sm")
     btn_list = btn_list or []
     return Form(
-        Textarea(placeholder="Ask, Search or Chat...", cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", name="text"),
+        Textarea(placeholder=placeholder, cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", name="text"),
         Footer(
             *btn_list,
             select_btn,
@@ -45,7 +45,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
     )
 
 # %% ../nbs/04_chat.ipynb 16
-def ChatInterface(*contents, chat_input=None, cls="", inner_cls="border-l border-r", id=None):
+def ChatInterface(*contents, chat_input=None, cls="", inner_cls="border-l border-r overflow-y-auto", id=None):
     return Div(
         Div(
             *contents,
