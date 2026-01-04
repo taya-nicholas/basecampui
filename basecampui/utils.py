@@ -133,7 +133,7 @@ def CodeHighlightThemeScript(
 
 # %% ../nbs/00_utils.ipynb 10
 @delegates(fh.FastHTML, keep=True, but=["pico"])
-def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, custom_kws="", **kwargs):
+def FastHTML(hdrs=None, ftrs=None, icons=[], code_highlight=True, custom_kws="", **kwargs):
     hdrs = basecoat_hdrs + (hdrs or ()) + (spritesheet,)
     ftrs = ftrs or ()
     if code_highlight:
@@ -141,34 +141,34 @@ def FastHTML(hdrs=None, ftrs=None, pico=False, icons=[], code_highlight=True, cu
         ftrs += CodeHighlightThemeScript(custom_kws)
     spritesheet.nms.update(basecamp_icons())
     spritesheet.nms.update(icons)
-    return fh.FastHTML(hdrs=hdrs, ftrs=ftrs, pico=pico, **kwargs)
+    return fh.FastHTML(hdrs=hdrs, ftrs=ftrs, pico=False, **kwargs)
 
-# %% ../nbs/00_utils.ipynb 13
+# %% ../nbs/00_utils.ipynb 12
 def get_preview(app=None): 
     if not app: app = FastHTML(session_cookie="mysession")
     return partial(HTMX, app=app, host=None, port=None)
 p = get_preview()
 
-# %% ../nbs/00_utils.ipynb 15
+# %% ../nbs/00_utils.ipynb 14
 def slugify(s):
     return re.sub(r"[&/\s]+", "-", s).strip("-").lower()
 
-# %% ../nbs/00_utils.ipynb 17
+# %% ../nbs/00_utils.ipynb 16
 # To easily preview items in a larger container
 def Window(*args, cls="h-96"):
     return Div(*args, cls=f"w-full flex flex-col items-center justify-center {cls}")
 
-# %% ../nbs/00_utils.ipynb 18
+# %% ../nbs/00_utils.ipynb 17
 def pw(*args, **kwargs):
     return p(Div(Window(*args, **kwargs), cls="h-100 w-full flex flex-col justify-center items-center"))
 
-# %% ../nbs/00_utils.ipynb 20
+# %% ../nbs/00_utils.ipynb 19
 class VEnum(Enum):
     def __str__(self): return self.value
     def __add__(self, b): return f"{self.value} {b}"
     def __radd__(self, a): return f"{a} {self.value}"
 
-# %% ../nbs/00_utils.ipynb 25
+# %% ../nbs/00_utils.ipynb 24
 def Icon(nm, sz=24, vbox=24, stroke=None, stroke_width=None, fill=None, cls=""):
     sym = [ft(t, **attrs) for t,attrs in spritesheet.icons[nm]]
     style = _style_str(stroke, fill, stroke_width)

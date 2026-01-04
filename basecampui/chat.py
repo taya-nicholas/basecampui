@@ -29,7 +29,12 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
     usage_div = usage_int and Div(f"{usage_int}% used", cls="text-muted-foreground text-sm")
     btn_list = btn_list or []
     return Form(
-        Textarea(placeholder=placeholder, cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", name="text"),
+        Textarea(
+            placeholder=placeholder, 
+            cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", 
+            name="text",
+            onkeydown="if(event.ctrlKey && event.key==='Enter'){event.preventDefault(); this.form.requestSubmit()}",
+        ),
         Footer(
             *btn_list,
             select_btn,
@@ -41,6 +46,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
             cls=f"absolute bottom-0 px-3 pb-3 pt-1.5 flex items-center {width} gap-2"
         ),
         cls=f"relative {cls}",
+        hx_on__ws_after_send="this.reset()",
         **kwargs
     )
 
