@@ -24,6 +24,7 @@ __pycache__/
 nbs/.sesskey
 nbs/embeddings
 nbs/embeddings/*
+.sesskey
 
 # Distribution / packaging
 .Python
