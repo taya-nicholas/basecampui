@@ -1,6 +1,8 @@
 # BasecampUI
 
-BasecampUI is a FastHTML UI library built on top of the excellent Basecoat. It's design goal is to create complex UI components with minimal boilerplate, while still allowing as much customization as possible
+BasecampUI is a FastHTML UI library built on top of the excellent Basecoat. It's design goal is to create complex UI components with minimal boilerplate, while still allowing as much customization as possible.
+
+See live component examples by reading the docs: https://tender-key-descends-gymoqa.solve.it.com/
 
 ## Quickstart
 
