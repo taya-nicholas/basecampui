@@ -177,7 +177,7 @@ def pw(*args, **kwargs):
     return p(Div(Window(*args, **kwargs), cls="h-100 w-full flex flex-col justify-center items-center"))
 
 # %% ../nbs/00_utils.ipynb #67e47996
-class VEnum(Enum):
+class VEnum(StrEnum):
     def __str__(self): return self.value
     def __add__(self, b): return f"{self.value} {b}"
     def __radd__(self, a): return f"{a} {self.value}"

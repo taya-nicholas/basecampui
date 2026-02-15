@@ -15,17 +15,17 @@ from fasthtml.jupyter import *
 
 
 # %% ../nbs/03_markdown.ipynb #b349e25b
-def CodeHighlight(src, cls="m-0 p-0 pt-2 leading-none"):
+def CodeHighlight(src, cls=""):
     return Pre(
         Code(src, cls="language-python-custom text-sm", style="background: transparent; overflow: visible; padding: 0;"),
-        cls=cls,
+        cls=twm.merge("m-0 p-0 pt-2 leading-none", cls),
     )
 
 # %% ../nbs/03_markdown.ipynb #48c16e5f
-def CopyableCode(code, lang="python"):
+def CopyableCode(code, lang="python", cls="", text_cls=""):
     return Div(
         Div(
-            Span(lang, cls="text-xs text-muted-foreground px-3 pt-1 pb-1 mb-0 border border-b-0 rounded-t-lg bg-background"),
+            Span(lang, cls=twm.merge("text-xs text-muted-foreground px-3 pt-1 pb-1 mb-0 border border-b-0 rounded-t-lg bg-background", text_cls)),
             cls="flex pl-2 pt-1",
         ),
         Div(
@@ -46,23 +46,23 @@ def CopyableCode(code, lang="python"):
             ),
             cls="relative border rounded-lg"
         ),
-        cls="rounded-lg bg-muted/50 my-2"
+        cls=twm.merge("rounded-lg bg-muted/50 my-2", cls)
     )
 
 # %% ../nbs/03_markdown.ipynb #ed5ac9a7
-def TextDotHighlight(text, cls="mx-0.5", before_color="bg-blue-500", after_color="bg-blue-500/40"):
+def TextDotHighlight(text, cls="", before_color="bg-blue-500", after_color="bg-blue-500/40"):
     return Span(
         Span(
             text,
             Icon("info", cls="size-3 inline ml-1 text-muted-foreground"),
             cls="relative z-10"
         ),
-        cls=f"relative after:content-[''] after:absolute after:w-[4px] after:h-[4px] after:left-1/2 after:-top-1 after:-translate-x-1/2 after:{before_color} after:rounded-lg after:transition-all hover:cursor-pointer hover:after:{after_color} hover:after:w-[calc(100%+10px)] hover:after:h-[calc(100%+10px)] {cls}"
+        cls=twm.merge(f"relative after:content-[''] after:absolute after:w-[4px] after:h-[4px] after:left-1/2 after:-top-1 after:-translate-x-1/2 after:{before_color} after:rounded-lg after:transition-all hover:cursor-pointer hover:after:{after_color} hover:after:w-[calc(100%+10px)] hover:after:h-[calc(100%+10px)] mx-0.5", cls)
     )
 
 # %% ../nbs/03_markdown.ipynb #9650a8eb
-def TextPopover(content, text, id, side="right", align="center"):
-    return Popover(content, id=id, trigger_btn=PopoverTriggerButton(TextDotHighlight(text), pid=id, cls="text"), side=side, align=align)
+def TextPopover(content, text, id, side="right", align="center", cls=""):
+    return Popover(content, id=id, trigger_btn=PopoverTriggerButton(TextDotHighlight(text), pid=id, cls="text"), side=side, align=align, cls=cls)
 
 # %% ../nbs/03_markdown.ipynb #9a6e37c1
 def split_md(md):

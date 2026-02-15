@@ -78,6 +78,8 @@ class BadgeT(VEnum):
 def Badge(*args, cls=BadgeT.primary, **kwargs):
     return Span(*args, cls=cls, **kwargs)
 
+twm.add_rule("badge_variant", ["badge-primary", "badge-secondary", "badge-destructive", "badge-outline"])
+
 # %% ../nbs/01_common.ipynb #7a643172
 def accumulate_hrefs(links:list):
     slugs = [slugify(o) for o in links]
@@ -118,6 +120,8 @@ ButtonT = mk_cls_enum(
     modifiers=["", "icon-"], 
     sizes=["-", "-sm-", "-lg-"],
 )
+
+twm.add_rule("button_variant", ["btn-"])
 
 # %% ../nbs/01_common.ipynb #19bc603b
 def Button(*args, cls=ButtonT.primary, **kwargs):

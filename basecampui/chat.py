@@ -31,7 +31,7 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
     return Form(
         Textarea(
             placeholder=placeholder, 
-            cls=f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}", 
+            cls=twm.merge(f"textarea pr-10 min-h-27 pb-12 {ta_cls} {width}"), 
             name="text",
             onkeydown="if(event.ctrlKey && event.key==='Enter'){event.preventDefault(); this.form.requestSubmit()}",
         ),
@@ -45,21 +45,21 @@ def ChatInput(cls="", ta_cls="", width="w-96", btn_list=None, select_list=None, 
             ),
             cls=f"absolute bottom-0 px-3 pb-3 pt-1.5 flex items-center {width} gap-2"
         ),
-        cls=f"relative {cls}",
+        cls=twm.merge(f"relative {cls}"),
         hx_on__ws_after_send="this.reset()",
         **kwargs
     )
 
 # %% ../nbs/04_chat.ipynb #d32f66e9
-def ChatInterface(*contents, chat_input=None, cls="", inner_cls="border-l border-r overflow-y-auto", id=None):
+def ChatInterface(*contents, chat_input=None, cls="", inner_cls="", id=None):
     return Div(
         Div(
             *contents,
-            cls=f"bg-background {inner_cls} flex flex-col flex-1 p-3 gap-3",
+            cls=twm.merge(f"bg-background border-l border-r overflow-y-auto flex flex-col flex-1 p-3 gap-3 {inner_cls}"),
             id=id,
         ),
         chat_input,
-        cls=f"flex flex-col w-full lg:max-w-4xl mx-auto {cls}",
+        cls=twm.merge(f"flex flex-col w-full lg:max-w-4xl mx-auto {cls}"),
     )
 
 # %% ../nbs/04_chat.ipynb #6e8dab36
@@ -74,16 +74,16 @@ def ChatMessage(content:str, msg_type="", cls="", rounding="", color="", txt_cls
     )
 
 # %% ../nbs/04_chat.ipynb #80ea3b49
-def ChatPrompt(content:str):
-    return ChatMessage(content, msg_type="Prompt", cls="bg-card w-[95%]", rounding="rounded-2xl rounded-tl-sm", color="bg-rose-700/70")
+def ChatPrompt(content:str, cls=""):
+    return ChatMessage(content, msg_type="Prompt", cls=twm.merge("bg-card w-[95%]", cls), rounding="rounded-2xl rounded-tl-sm", color="bg-rose-700/70")
 
 # %% ../nbs/04_chat.ipynb #5a2e83f1
-def ChatAssistant(content:str):
-    return ChatMessage(content, msg_type="Assistant", cls="bg-background w-[90%] ml-auto mb-2", rounding="rounded-2xl", color="bg-rose-700/70")
+def ChatAssistant(content:str, cls=""):
+    return ChatMessage(content, msg_type="Assistant", cls=twm.merge("bg-background w-[90%] ml-auto mb-2", cls), rounding="rounded-2xl", color="bg-rose-700/70")
 
 # %% ../nbs/04_chat.ipynb #c9fc0499
-def ChatNote(content:str):
-    return ChatMessage(content, msg_type="Note", cls="bg-card w-[95%] p-0 m-0", rounding="rounded-2xl rounded-tl-sm", color="bg-green-500/50", txt_cls="ml-2 mb-2 mt-1 overflow-auto")
+def ChatNote(content:str, cls=""):
+    return ChatMessage(content, msg_type="Note", cls=twm.merge("bg-card w-[95%] p-0 m-0", cls), rounding="rounded-2xl rounded-tl-sm", color="bg-green-500/50", txt_cls="ml-2 mb-2 mt-1 overflow-auto")
 
 # %% ../nbs/04_chat.ipynb #36923f65
 def ChatCode(content:str, highlight=True):
@@ -91,9 +91,9 @@ def ChatCode(content:str, highlight=True):
     return ChatMessage(c, msg_type="Code", cls="bg-card w-[95%] p-0 m-0 overflow-hidden", rounding="rounded-2xl rounded-tl-sm", color="bg-blue-500/50", txt_cls="ml-2 pb-2 overflow-auto")
 
 # %% ../nbs/04_chat.ipynb #903b0d84
-def ChatOutput(content:str, highlight=True):
+def ChatOutput(content:str, highlight=True, cls=""):
     c = CodeHighlight(content) if highlight else content
-    return ChatMessage(c, msg_type="Output", cls="bg-card w-[90%] ml-auto p-0 m-0", rounding="rounded-2xl rounded-tl-sm", color="bg-blue-500/50", txt_cls="ml-2 mb-2 overflow-auto")
+    return ChatMessage(c, msg_type="Output", cls=twm.merge("bg-card w-[90%] ml-auto p-0 m-0", cls), rounding="rounded-2xl rounded-tl-sm", color="bg-blue-500/50", txt_cls="ml-2 mb-2 overflow-auto")
 
 # %% ../nbs/04_chat.ipynb #66ac5476
 def ChatPromptAndAssistant(prompt:str, assistant=None):
