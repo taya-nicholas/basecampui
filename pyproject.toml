@@ -1,3 +1,33 @@
 [build-system]
-requires = ["setuptools>=64.0"]
+requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "basecampui"
+dynamic = ["version"]
+description = "A FastHTML UI component library based on basecoat CSS"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+authors = [{name = "Taya Nicholas", email = "taya.nicholas@outlook.com"}]
+keywords = ['nbdev', 'jupyter', 'notebook', 'python']
+classifiers = ["Natural Language :: English", "Intended Audience :: Developers", "Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only"]
+dependencies = ['fastcore', 'python-fasthtml', 'fastlucide', 'tailwind-merge']
+
+[project.urls]
+Repository = "https://github.com/taya-nicholas/basecampui"
+Documentation = "https://taya-nicholas.github.io/basecampui"
+
+[project.entry-points.nbdev]
+basecampui = "basecampui._modidx:d"
+
+[project.optional-dependencies]
+dev = ['lancedb', 'google-genai', 'lisette']
+
+[tool.setuptools.dynamic]
+version = {attr = "basecampui.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["basecampui"]
+
+[tool.nbdev]
